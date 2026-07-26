@@ -32,7 +32,7 @@ Browser
 
 | Service | URL |
 |---|---|
-| **Compliance Intelligence Platform** | `[TBD — fill after first deploy]` |
+| **Compliance Intelligence Platform** | https://compliance-intelligence-platform-786562162192.us-central1.run.app |
 | GCP DevOps Compliance Agent (backend) | https://gcp-devops-backend-786562162192.us-central1.run.app |
 | Contact Center Intelligence Suite (API) | https://ccai-quality-agent-api-786562162192.us-central1.run.app |
 | Government Citizen Intelligence Platform (API) | https://ccai-gov-intelligence-api-786562162192.us-central1.run.app |
