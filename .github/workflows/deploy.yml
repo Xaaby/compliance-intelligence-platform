@@ -1,0 +1,79 @@
+name: Build and Deploy — compliance-intelligence-platform
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: earnest-sight-503519-t5
+  REGION: us-central1
+  SERVICE: compliance-intelligence-platform
+  IMAGE: us-central1-docker.pkg.dev/earnest-sight-503519-t5/compliance-platform/compliance-intelligence-platform
+
+jobs:
+  deploy:
+    name: Build → Push → Deploy
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud (WIF)
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          token_format: access_token
+          workload_identity_provider: projects/786562162192/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: gcp-devops-agent-sa@earnest-sight-503519-t5.iam.gserviceaccount.com
+
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: us-central1-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --tag ${{ env.IMAGE }}:${{ github.sha }} \
+            --tag ${{ env.IMAGE }}:latest \
+            .
+
+      - name: Push Docker image to Artifact Registry
+        run: |
+          docker push ${{ env.IMAGE }}:${{ github.sha }}
+          docker push ${{ env.IMAGE }}:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE }} \
+            --image ${{ env.IMAGE }}:${{ github.sha }} \
+            --region ${{ env.REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --port 8080 \
+            --memory 512Mi \
+            --cpu 1 \
+            --timeout 60 \
+            --min-instances 0 \
+            --max-instances 3 \
+            --set-env-vars "AGENT1_URL=${{ secrets.AGENT1_URL }},AGENT2_URL=${{ secrets.AGENT2_URL }},AGENT3_URL=${{ secrets.AGENT3_URL }}" \
+            --project ${{ env.PROJECT_ID }} \
+            --quiet
+
+      - name: Show deployed service URL
+        run: |
+          gcloud run services describe ${{ env.SERVICE }} \
+            --region ${{ env.REGION }} \
+            --project ${{ env.PROJECT_ID }} \
+            --format "value(status.url)"
