@@ -45,19 +45,29 @@ URGENCY_COLORS = {
 }
 
 
+@st.cache_data(ttl=60, show_spinner=False)
+def _cached_health_check() -> dict | None:
+    try:
+        return health_check()
+    except Exception:
+        return None
+
+
 def render():
     st.subheader("🏛️ Government Citizen Intelligence Platform")
     st.caption("311 citizen request classifier + CJIS Security Policy Q&A.")
 
-    try:
-        health = health_check()
-        if health.get("index_loaded"):
-            st.success("Agent online — CJIS index loaded", icon="🟢")
-        else:
-            st.warning("Agent online — CJIS index loading, Q&A may be slow on first query", icon="🟡")
-    except Exception:
-        st.error("Agent offline — check backend URL", icon="🔴")
-        return
+    health = _cached_health_check()
+    if health is None:
+        st.warning(
+            "Backend unreachable — requests may still work if the service is warming up. "
+            "First cold start can take up to 90 seconds while the CJIS index loads.",
+            icon="⚠️",
+        )
+    elif health.get("index_loaded"):
+        st.success("Agent online — CJIS index loaded", icon="�")
+    else:
+        st.info("Agent online — CJIS index still loading, first Q&A query may be slow", icon="�")
 
     st.divider()
 
