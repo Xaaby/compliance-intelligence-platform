@@ -65,9 +65,9 @@ def render():
             icon="⚠️",
         )
     elif health.get("index_loaded"):
-        st.success("Agent online — CJIS index loaded", icon="�")
+        st.success("Agent online — CJIS index loaded", icon="✅")
     else:
-        st.info("Agent online — CJIS index still loading, first Q&A query may be slow", icon="�")
+        st.info("Agent online — CJIS index still loading, first Q&A query may be slow", icon="ℹ️")
 
     st.divider()
 
