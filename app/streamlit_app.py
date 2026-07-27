@@ -4,7 +4,7 @@ Single Streamlit app — three navbar tabs — calls all three agent backends.
 Entry point for Cloud Run deployment.
 """
 import streamlit as st
-from app.tabs import tab_devops, tab_ccai, tab_gov
+from tabs import tab_devops, tab_ccai, tab_gov
 
 st.set_page_config(
     page_title="Compliance Intelligence Platform",

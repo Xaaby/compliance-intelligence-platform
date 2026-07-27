@@ -3,7 +3,7 @@ Tab 1: DevOps Compliance Agent UI.
 Calls Agent 1 backend via agent1_client.
 """
 import streamlit as st
-from app.api_clients.agent1_client import chat, health_check
+from api_clients.agent1_client import chat, health_check
 
 SAMPLE_QUERIES = [
     "Why did my pipeline fail last night?",

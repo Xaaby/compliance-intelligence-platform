@@ -3,7 +3,7 @@ Tab 2: Contact Center Intelligence Suite UI.
 Calls Agent 2 backend via agent2_client.
 """
 import streamlit as st
-from app.api_clients.agent2_client import analyze_transcript, health_check
+from api_clients.agent2_client import analyze_transcript, health_check
 
 SAMPLE_CALLS = {
     "CALL-001": {

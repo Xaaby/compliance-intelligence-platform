@@ -2,7 +2,7 @@
 HTTP client for Agent 2 (ccai-quality-agent) FastAPI backend.
 """
 import httpx
-from app.config import AGENT2_URL, HTTP_TIMEOUT
+from config import AGENT2_URL, HTTP_TIMEOUT
 
 
 def health_check() -> dict:

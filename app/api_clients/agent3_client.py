@@ -2,7 +2,7 @@
 HTTP client for Agent 3 (ccai-gov-intelligence) FastAPI backend.
 """
 import httpx
-from app.config import AGENT3_URL, HTTP_TIMEOUT
+from config import AGENT3_URL, HTTP_TIMEOUT
 
 
 def health_check() -> dict:

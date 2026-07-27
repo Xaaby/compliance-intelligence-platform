@@ -4,7 +4,7 @@ Two sub-modes: 311 Classifier and CJIS Policy Q&A.
 Calls Agent 3 backend via agent3_client.
 """
 import streamlit as st
-from app.api_clients.agent3_client import classify_request, query_cjis, health_check
+from api_clients.agent3_client import classify_request, query_cjis, health_check
 
 SAMPLE_COMPLAINTS = {
     "REQ-001": {

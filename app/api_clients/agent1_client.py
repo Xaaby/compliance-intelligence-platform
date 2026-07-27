@@ -3,7 +3,7 @@ HTTP client for Agent 1 (gcp-devops-compliance-agent) FastAPI backend.
 All calls go through this module. Never call the backend URL directly from tabs.
 """
 import httpx
-from app.config import AGENT1_URL, HTTP_TIMEOUT
+from config import AGENT1_URL, HTTP_TIMEOUT
 
 
 def health_check() -> dict:
