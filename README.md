@@ -87,19 +87,18 @@ The platform calls the live Cloud Run backends even during local development —
 
 ## GitHub Actions Secrets Required
 
-Add these to the repo before the first push:
+
 
 | Secret | Value |
 |---|---|
-| `WIF_PROVIDER` | `projects/786562162192/locations/global/workloadIdentityPools/github-pool/providers/github-provider` |
-| `WIF_SERVICE_ACCOUNT` | `gcp-devops-agent-sa@earnest-sight-503519-t5.iam.gserviceaccount.com` |
-| `GCP_PROJECT_ID` | `earnest-sight-503519-t5` |
+| `WIF_PROVIDER` |
+| `WIF_SERVICE_ACCOUNT` | 
+| `GCP_PROJECT_ID` |
 | `AGENT1_URL` | `https://gcp-devops-backend-786562162192.us-central1.run.app` |
 | `AGENT2_URL` | `https://ccai-quality-agent-api-786562162192.us-central1.run.app` |
 | `AGENT3_URL` | `https://ccai-gov-intelligence-api-786562162192.us-central1.run.app` |
 
-> **WIF scope:** Verify the Workload Identity Pool attribute condition covers `Xaaby/compliance-intelligence-platform`. If scoped to a single repo, widen to `attribute.repository_owner == 'Xaaby'`.
-
+> **WIF scope:** Verify the Workload Identity Pool attribute condition covers
 ---
 
 ## Repo Structure
